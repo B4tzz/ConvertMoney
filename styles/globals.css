@@ -6,6 +6,14 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  background: #edf2f7;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -13,4 +21,14 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input[type=number].without_number::-webkit-inner-spin-button, 
+input[type=number].without_number::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+     margin: 0; 
 }
