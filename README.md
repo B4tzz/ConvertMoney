@@ -2,11 +2,23 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, you will need the following applications:
+- NodeJS
+- Yarn
+- Visual Code (or other IDE)
+- MongoDBCompass (MongoDB IDE)
+
+So, after cloning the project, you have to install dependencies:
 
 ```bash
-npm run dev
-# or
+yarn
+```
+
+So you have to create an MongoDB database. After this, copy the .env-example file and rename to .env; So replace patterns values with your MongoDB connection credentials.
+
+Run the development server:
+
+```bash
 yarn dev
 ```
 
