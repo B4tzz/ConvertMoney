@@ -55,8 +55,6 @@ export default function App() {
       }
       await api.get(`api/convert?coinFrom=${selectedCurrency.coin}&amount=${amountValue}`)
         .then((response) => {
-          console.log('Response');
-          console.log(response.data);
           setResults(response.data);
         })
         .catch((error) => {
@@ -72,19 +70,14 @@ export default function App() {
   }
 
   useEffect(() => {
-    console.log('iniciou')
-
     api.get('api/coin-list')
       .then((response) => {
-        console.log('Coin list');
         setCurrencies(response.data);
         setSelectedCurrency(response.data[0]);
       })
       .catch((error) => {
         console.log('Erro request coin list: ' + error.toString());
       })
-
-    console.log('carregou')
   }, []);
 
   return (
