@@ -17,28 +17,6 @@ const auxCurrencies: CurrencyType[] = [
   { id: 'CAD', name: 'Canadian Dollar', coin: 'CAD', symbol: 'CAD' }
 ];
 
-const results = [
-  {
-    id: 1,
-    name: 'Dollar',
-    tax: '$35',
-    total: '$35',
-  },
-  {
-    id: 2,
-    name: 'Euro',
-    tax: '$35',
-    total: '$35',
-  },
-  {
-    id: 3,
-    name: 'Reais',
-    tax: '$35',
-    total: '$200000000',
-  },
-  // More products...
-];
-
 interface Results {
   id: string,
   coinName: string,

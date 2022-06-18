@@ -43,9 +43,14 @@ interface Coins {
   name: string
 }
 
+interface QueryType {
+  coinFrom: string;
+  amount: number;
+}
+
 apiRoute.use(helmet());
 
-apiRoute.get(async (req: any, res) => {
+apiRoute.get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { query } = req;
     const { coinFrom, amount } = query;
@@ -85,7 +90,7 @@ apiRoute.get(async (req: any, res) => {
         });
 
     
-    const result: Currencies[] = convertCurrencies(json, coinFrom, amount, coins);
+    const result: Currencies[] = convertCurrencies(json, coinFrom.toString(), Number(amount), coins);
     
 
     return res.status(200).json(result.map((r => ResultModelView(r))));
@@ -95,7 +100,7 @@ apiRoute.get(async (req: any, res) => {
   }
 });
 
-function convertCurrencies(coinsRate: Array<RatesJson>, coinFrom: String, amount: number, coins: Array<Coins> ){
+function convertCurrencies(coinsRate: Array<RatesJson>, coinFrom: string, amount: number, coins: Array<Coins> ){
   const coinFromRatecoins = coinsRate.filter((c) => c.coin == coinFrom)[0];
   const currencies : Currencies[] = [];
 

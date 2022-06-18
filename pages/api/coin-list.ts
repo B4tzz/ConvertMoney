@@ -23,7 +23,7 @@ const apiRoute = nextConnect<NextApiRequest, NextApiResponse>({
 
 apiRoute.use(helmet());
 
-apiRoute.get(async (req: any, res) => {
+apiRoute.get(async (req: NextApiRequest, res : NextApiResponse) => {
   try {
     const coins: any[] = [];
     const client = await clientPromise;
