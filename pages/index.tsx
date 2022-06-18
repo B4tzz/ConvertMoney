@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "../components/header";
 import api from 'axios';
 import moment from 'moment';
+import ModalLoader from '../components/loaderModal'
 
 interface CurrencyType {
   id: string
@@ -35,6 +36,7 @@ export default function App() {
   const [selectedCurrency, setSelectedCurrency] = useState(currencies[0]);
   const [amountValue, setAmountValue] = useState(undefined);
   const [results, setResults] = useState<Results[]>([]);
+  const [showLoader, setShowLoader] = useState<boolean>(false);
 
   const changeSelectedCurrency = (event: any) => {
     const valueToParse = event.target.value;
@@ -43,14 +45,15 @@ export default function App() {
     return;
   }
 
-  const convertMoney = (e: any) => {
+  const convertMoney = async (e: any) => {
     try {
       e.preventDefault();
+      setShowLoader(true);
 
       if (!amountValue) {
         return
       }
-      api.get(`api/convert?coinFrom=${selectedCurrency.coin}&amount=${amountValue}`)
+      await api.get(`api/convert?coinFrom=${selectedCurrency.coin}&amount=${amountValue}`)
         .then((response) => {
           console.log('Response');
           console.log(response.data);
@@ -62,6 +65,9 @@ export default function App() {
     }
     catch (e) {
       console.log(e);
+    }
+    finally{
+      setShowLoader(false);
     }
   }
 
@@ -85,6 +91,7 @@ export default function App() {
     <>
       <title>ConvertMoney</title>
       <Header page='Convert' />
+      <ModalLoader showLoader={showLoader} setShowLoader={setShowLoader} text="Aguarde..." />
       <main className="h-full flex flex-col">
         <div className="flex justify-center items-center w-1/2  mx-auto py-6 sm:px-6 lg:px-8">
           {/* Replace with your content */}
