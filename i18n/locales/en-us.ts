@@ -18,8 +18,8 @@ export default {
                 GBP: 'Pound sterling',
                 USD: 'Dollar'
             },
-            tax: 'Taxa',
-            date: 'Data'
+            tax: 'Tax',
+            date: 'Date'
         },
         global:{
             dateFormat: 'MM/DD/YYYY'
