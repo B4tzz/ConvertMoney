@@ -4,6 +4,7 @@ import api from 'axios';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { ConvertCard } from "../components/convertCard";
+import ModalLoader from '../components/loaderModal'
 
 interface CurrencyType {
   id: string
@@ -17,28 +18,6 @@ const auxCurrencies: CurrencyType[] = [
   { id: 'EUR', name: 'Euro', coin: 'EUR', symbol: '€' },
   { id: 'BRL', name: 'Reais', coin: 'BRL', symbol: 'R$' },
   { id: 'CAD', name: 'Canadian Dollar', coin: 'CAD', symbol: 'CAD' }
-];
-
-const results = [
-  {
-    id: 1,
-    name: 'Dollar',
-    tax: '$35',
-    total: '$35',
-  },
-  {
-    id: 2,
-    name: 'Euro',
-    tax: '$35',
-    total: '$35',
-  },
-  {
-    id: 3,
-    name: 'Reais',
-    tax: '$35',
-    total: '$200000000',
-  },
-  // More products...
 ];
 
 interface Results {
@@ -60,6 +39,7 @@ export default function App() {
   const [amountValue, setAmountValue] = useState(undefined);
   const [results, setResults] = useState<Results[]>([]);
   const { t } = useTranslation();
+  const [showLoader, setShowLoader] = useState<boolean>(false);
 
   const changeSelectedCurrency = (event: any) => {
     const valueToParse = event.target.value;
@@ -68,17 +48,16 @@ export default function App() {
     return;
   }
 
-  const convertMoney = (e: any) => {
+  const convertMoney = async (e: any) => {
     try {
       e.preventDefault();
+      setShowLoader(true);
 
       if (!amountValue) {
         return
       }
-      api.get(`api/convert?coinFrom=${selectedCurrency.coin}&amount=${amountValue}`)
+      await api.get(`api/convert?coinFrom=${selectedCurrency.coin}&amount=${amountValue}`)
         .then((response) => {
-          console.log('Response');
-          console.log(response.data);
           setResults(response.data);
         })
         .catch((error) => {
@@ -88,28 +67,27 @@ export default function App() {
     catch (e) {
       console.log(e);
     }
+    finally{
+      setShowLoader(false);
+    }
   }
 
   useEffect(() => {
-    console.log('iniciou')
-
     api.get('api/coin-list')
       .then((response) => {
-        console.log('Coin list');
         setCurrencies(response.data);
         setSelectedCurrency(response.data[0]);
       })
       .catch((error) => {
         console.log('Erro request coin list: ' + error.toString());
       })
-
-    console.log('carregou')
   }, []);
 
   return (
     <>
       <title>ConvertMoney</title>
       <Header page='Convert' />
+      <ModalLoader showLoader={showLoader} setShowLoader={setShowLoader} text="Aguarde..." />
       <main className="h-full flex flex-col">
         <div className="flex justify-center items-center w-1/2  mx-auto py-6 sm:px-6 lg:px-8">
           <div className="flex justify-center px-2 sm:px-0 w-full">
